@@ -1,0 +1,7 @@
+requests
+logging
+pandas
+geopy
+numpy
+datetime
+sendgrid
