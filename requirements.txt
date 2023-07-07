@@ -4,6 +4,5 @@ pandas
 geopy
 numpy
 datetime
-yaml
 sendgrid
 geopy
