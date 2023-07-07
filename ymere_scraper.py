@@ -4,6 +4,7 @@ import logging
 from datetime import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+import yaml
 
 class YmereScraper():
 
@@ -16,7 +17,13 @@ class YmereScraper():
         'dwellingTypeCategory': 'woning'
     }
     YMERE_LISTINGS = "./ymere_listings.csv"
-    SENDGRID_API_KEY = "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"
+    
+    # load sendgrid api key from yaml config file
+    try:
+        with open("config.yml", 'r') as stream:
+            SENDGRID_API_KEY = yaml.safe_load(stream)['api-keys']['sendgrid']
+    except Exception as e:
+        print(f"{e}: SendGrid API KEY is not available.")
 
     @classmethod
     def fetch_attr(self, attr):
