@@ -5,6 +5,8 @@ from datetime import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import yaml
+from geopy.geocoders import Nominatim
+
 
 class YmereScraper():
 
@@ -17,6 +19,9 @@ class YmereScraper():
         'dwellingTypeCategory': 'woning'
     }
     YMERE_LISTINGS = "./ymere_listings.csv"
+
+    # initialize Nominatim API
+    geolocator = Nominatim(user_agent='house_listings')
     
     # load sendgrid api key from yaml config file
     try:
@@ -59,7 +64,7 @@ class YmereScraper():
 
         try:
             # get exact address from geolocator
-            location = geolocator.reverse(f"{lat}, {long}").raw['address']
+            location = self.geolocator.reverse(f"{lat}, {long}").raw['address']
             # keep specific keys only
             location = {x:location[x] for x in ['house_number', 'road', 'city', 'postcode']}
 
@@ -147,23 +152,29 @@ class YmereScraper():
             to_rent = house['dwellings'][0]['rentBuy'] == 'Huur'
             action_label = house['actionLabel'][0]['label'] != 'Tijdelijke verhuur studenten'
             amsterdam = 'amsterdam' in house['city'][0]['name'].lower()
-            affordable = house['totalRent'][0] <= 1250
+            affordable = False
+            # if house rent exists and is affordable set to True, otherwise skip iteration
+            if house['totalRent']:
+                affordable = house['totalRent'][0] <= 1250
+            else:
+                continue
 
             if to_rent and action_label and amsterdam and affordable:
                 ### extract and parse attributes ###
                 house_dict['city'] = house['city'][0]['name']
                 house_dict['id'] = house['id']
-                house_dict['totalRent'] = fetch_attr(house['totalRent'][0])
-                house_dict['actionLabel'] = fetch_attr(house['actionLabel'][0]['label'])
-                house_dict['floor'] = fetch_attr(house['floor'][0]['name'][:2])
-                house_dict['neighborhood'] = fetch_attr(house['neighborhood'][0]['name'])
+                house_dict['totalRent'] = self.fetch_attr(house['totalRent'][0])
+                house_dict['actionLabel'] = self.fetch_attr(house['actionLabel'][0]['label'])
+                house_dict['floor'] = self.fetch_attr(house['floor'][0]['name'][:2])
+                house_dict['neighborhood'] = self.fetch_attr(house['neighborhood'][0]['name'])
                 # improve accuracy of location
-                location = getLocation(house['latitude'][0], house['longitude'][0])
+                location = self.getLocation(house['latitude'][0], house['longitude'][0])
                 if location:
                     house_dict.update(location)
                 house_dict['publicationDate'] = datetime.strptime(house['publicationDate'], '%Y-%m-%d %H:%M:%S').date()
                 house_dict['closingDate'] = datetime.strptime(house['closingDate'], '%Y-%m-%d %H:%M:%S').date()
                 house_dict['dateAdded'] = dt_string
+                house_dict['url'] = f"https://aanbod.ymere.nl/aanbod/huurwoningen/details/?publicationID={house_dict['id']}"
                 houses.append(house_dict)
         
         return houses
@@ -207,7 +218,7 @@ class YmereScraper():
             """
             )
         try:
-            sg = SendGridAPIClient(SENDGRID_API_KEY)
+            sg = SendGridAPIClient(self.SENDGRID_API_KEY)
             response = sg.send(message)
             logging.info(response.status_code)
             logging.debug(response.body)

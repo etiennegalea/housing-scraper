@@ -2,7 +2,6 @@ import sys
 import requests
 import logging
 import pandas as pd
-from geopy.geocoders import Nominatim
 
 from ymere_scraper import YmereScraper
 
@@ -12,8 +11,6 @@ if __name__ == "__main__":
     """
 
     ys = YmereScraper()
-    # initialize Nominatim API
-    geolocator = Nominatim(user_agent='house_listings')
 
     # set logger
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -25,11 +22,11 @@ if __name__ == "__main__":
 
     # extract ymere listings from obtained json object
     try:
-        listings = ys.extract_listings_ymere(data)
+        new_listings = ys.extract_listings_ymere(data)
 
-        if listings:
+        if new_listings:
             logging.info("Houses available found...")
-            listings = pd.DataFrame(listings).set_index('id').sort_values('id')
+            new_listings = pd.DataFrame(new_listings).set_index('id').sort_values('id')
 
             try:
                 # read df from file
@@ -39,24 +36,24 @@ if __name__ == "__main__":
                 old_listings = ys.clean_up(old_listings)
 
                 # filter
-                new_listings, updated_listings = ys.filter_listings(listings, old_listings)
+                new_listings, updated_listings = ys.filter_listings(new_listings, old_listings)
 
                 # write new df to file
                 updated_listings.to_csv(ys.YMERE_LISTINGS)
 
-                # send email notification if new listings found (not empty)
-                if not new_listings.empty:
-                    print(new_listings)
-                else:
-                    logging.debug("No new houses found.")
-                    ys.send_mail(new_listings)
-
             except pd.errors.EmptyDataError as e:
                 logging.info("No old listings found. Writing new listings to file.")
-                listings.to_csv(ys.YMERE_LISTINGS)
+                new_listings.to_csv(ys.YMERE_LISTINGS)
+
+            # send email notification if new listings found (not empty)
+            if not new_listings.empty:
+                ys.send_mail(new_listings)
+            else:
+                logging.debug("No new houses found.")
+
 
         else:
             logging.info("No houses found...")
 
-    except IndexError as e:
-        logging.error("No houses available - none meet all the conditions.")
+    except Exception as e:
+        logging.error(e)
