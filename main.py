@@ -41,7 +41,7 @@ if __name__ == "__main__":
                 # write new df to file
                 updated_listings.to_csv(ys.YMERE_LISTINGS)
 
-            except pd.errors.EmptyDataError as e:
+            except Exception as e:
                 logging.info("No old listings found. Writing new listings to file.")
                 new_listings.to_csv(ys.YMERE_LISTINGS)
 
