@@ -110,13 +110,12 @@ class YmereScraper():
         """
 
         # get current date (yyyy-mm-dd)
-        current_date = int(np.floor(datetime.now().timestamp()))
+        current_date = datetime.now().date()
 
         drop_rows = []
         # get closing date for every listing
         for k, v in old_listings.iterrows():
-            date = datetime.strptime(v['closingDate'], "%Y-%m-%d")
-            date = int(np.floor(datetime.timestamp(date)))
+            date = datetime.strptime(v['closingDate'], "%Y-%m-%d").date()
 
             # if closing date has passed, delete listing
             if current_date > date:
