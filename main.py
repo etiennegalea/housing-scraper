@@ -3,7 +3,7 @@ import requests
 import logging
 import pandas as pd
 
-from ymere_scraper import YmereScraper
+from ymere_scraper import YmereScraper, NotificationType
 
 if __name__ == "__main__":
     """
@@ -47,13 +47,12 @@ if __name__ == "__main__":
 
             # send email notification if new listings found (not empty)
             if not new_listings.empty:
-                ys.send_mail(new_listings)
+                logging.info(f"Sending notification via {NotificationType(ys.NOTIFICATION_TYPE).name}.")
+                ys.send_notification(new_listings, notification_type=ys.NOTIFICATION_TYPE)
             else:
                 logging.debug("No new houses found.")
-
-
         else:
-            logging.info("No houses found...")
+            logging.info("No houses found.")
 
     except Exception as e:
         logging.error(e)
