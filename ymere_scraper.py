@@ -157,7 +157,8 @@ class YmereScraper():
             (dict) containing the desirable filtered listings from the scraped data.
         """
         
-        dt_string = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
+        dt_string = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+        logging.info(f"Extraction time: {dt_string}")
 
         houses = []
         for house in listings:
