@@ -31402,3 +31402,76 @@ DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "GET /v2/users/me HT
 DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "GET /v2/channels HTTP/1.1" 200 160
 DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "POST /v2/pushes HTTP/1.1" 200 None
 DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "POST /v2/pushes HTTP/1.1" 200 None
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): aanbod.ymere.nl:443
+DEBUG:urllib3.connectionpool:https://aanbod.ymere.nl:443 "POST /portal/publication/frontend/getallobjects/format/json HTTP/1.1" 200 None
+INFO:root:<Status code: 200>
+INFO:root:Extraction time: 2023/07/19 07:52:03
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): nominatim.openstreetmap.org:443
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1 HTTP/1.1" 200 None
+INFO:root:Houses available found...
+INFO:root:No old listings found. Writing new listings to file.
+INFO:root:Sending notification via PUSH_NOTIFICATION.
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): api.pushbullet.com:443
+DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "GET /v2/devices HTTP/1.1" 200 None
+DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "GET /v2/chats HTTP/1.1" 200 160
+DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "GET /v2/users/me HTTP/1.1" 200 333
+DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "GET /v2/channels HTTP/1.1" 200 160
+DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "POST /v2/pushes HTTP/1.1" 200 None
+DEBUG:urllib3.connectionpool:https://api.pushbullet.com:443 "POST /v2/pushes HTTP/1.1" 200 None
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): aanbod.ymere.nl:443
+DEBUG:urllib3.connectionpool:https://aanbod.ymere.nl:443 "POST /portal/publication/frontend/getallobjects/format/json HTTP/1.1" 200 None
+INFO:root:<Status code: 200>
+INFO:root:Extraction time: 2023/07/19 07:53:02
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): nominatim.openstreetmap.org:443
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1 HTTP/1.1" 200 None
+INFO:root:Houses available found...
+DEBUG:root:No new houses found.
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): aanbod.ymere.nl:443
+DEBUG:urllib3.connectionpool:https://aanbod.ymere.nl:443 "POST /portal/publication/frontend/getallobjects/format/json HTTP/1.1" 200 None
+INFO:root:<Status code: 200>
+INFO:root:Extraction time: 2023/07/19 07:54:03
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): nominatim.openstreetmap.org:443
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1 HTTP/1.1" 200 None
+INFO:root:Houses available found...
+DEBUG:root:No new houses found.
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): aanbod.ymere.nl:443
+DEBUG:urllib3.connectionpool:https://aanbod.ymere.nl:443 "POST /portal/publication/frontend/getallobjects/format/json HTTP/1.1" 200 None
+INFO:root:<Status code: 200>
+INFO:root:Extraction time: 2023/07/19 07:55:03
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): nominatim.openstreetmap.org:443
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1 HTTP/1.1" 200 None
+INFO:root:Houses available found...
+DEBUG:root:No new houses found.
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): aanbod.ymere.nl:443
+DEBUG:urllib3.connectionpool:https://aanbod.ymere.nl:443 "POST /portal/publication/frontend/getallobjects/format/json HTTP/1.1" 200 None
+INFO:root:<Status code: 200>
+INFO:root:Extraction time: 2023/07/19 07:56:03
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): nominatim.openstreetmap.org:443
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83794&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3756&lon=4.83813&format=json&addressdetails=1 HTTP/1.1" 200 None
+DEBUG:geopy:Nominatim.reverse: https://nominatim.openstreetmap.org/reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1
+DEBUG:urllib3.connectionpool:https://nominatim.openstreetmap.org:443 "GET /reverse?lat=52.3507&lon=4.92187&format=json&addressdetails=1 HTTP/1.1" 200 None
+INFO:root:Houses available found...
+DEBUG:root:No new houses found.

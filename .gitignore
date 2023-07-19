@@ -166,8 +166,8 @@ cython_debug/
 .config.yml
 
 # data and logs
-.ymere_listings.csv
-.log.out
+ymere_listings.csv
+log.out
 
 # testing and misc.
-.poll_ymere.ipynb
+poll_ymere.ipynb
