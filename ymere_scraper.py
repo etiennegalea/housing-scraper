@@ -33,7 +33,7 @@ class YmereScraper():
 
     # load sendgrid api key from yaml config file
     try:
-        with open("config.yml", 'r') as stream:
+        with open(".config.yml", 'r') as stream:
             SENDGRID_API_KEY = yaml.safe_load(stream)['api-keys']['sendgrid']
     except Exception as e:
         print(f"{e}: SendGrid API KEY is not available.")
