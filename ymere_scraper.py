@@ -40,7 +40,7 @@ class YmereScraper():
         
     # load pushbullet api key from yaml config file
     try:
-        with open("config.yml", 'r') as stream:
+        with open(".config.yml", 'r') as stream:
             PUSHBULLET_API_KEY = yaml.safe_load(stream)['api-keys']['pushbullet']
     except Exception as e:
         print(f"{e}: PushBullet API KEY is not available.")
