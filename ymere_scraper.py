@@ -1,6 +1,4 @@
 import pandas as pd
-import numpy as np
-import logging
 from datetime import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -8,6 +6,9 @@ import yaml
 from geopy.geocoders import Nominatim
 from pushbullet import Pushbullet
 from enum import IntEnum
+import logging
+
+import settings
 
 
 class NotificationType(IntEnum):
@@ -157,7 +158,7 @@ class YmereScraper():
             (dict) containing the desirable filtered listings from the scraped data.
         """
         
-        dt_string = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+        dt_string = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         logging.info(f"Extraction time: {dt_string}")
 
         houses = []

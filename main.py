@@ -1,19 +1,20 @@
-import sys
 import requests
-import logging
 import pandas as pd
+import logging
 
+import settings
 from ymere_scraper import YmereScraper, NotificationType
+
 
 if __name__ == "__main__":
     """
     Calls on YmereScraper class to scrape rentable houses from Ymere.
     """
 
-    ys = YmereScraper()
+    # set logger name
+    logging.getLogger(__name__)
 
-    # set logger
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+    ys = YmereScraper()
 
     # scrape a JSON object of currently available Ymere houses
     r = requests.post(ys.YMERE_URL, data=ys.YMERE_PAYLOAD)
