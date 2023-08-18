@@ -42,8 +42,8 @@ if __name__ == "__main__":
                 # write new df to file
                 updated_listings.to_csv(ys.YMERE_LISTINGS)
 
-            except Exception as e:
-                logging.info("No old listings found. Writing new listings to file.")
+            except pd.errors.EmptyDataError as e:
+                logging.info(f"{e}\n:: No old listings found. Writing new listings to file.")
                 new_listings.to_csv(ys.YMERE_LISTINGS)
 
             # send email notification if new listings found (not empty)
@@ -56,4 +56,5 @@ if __name__ == "__main__":
             logging.info("No houses found.")
 
     except Exception as e:
-        logging.error(e)
+        logging.error(e
+        
