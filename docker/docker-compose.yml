@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: DOCKERFILE
+    # environment:
+      # - SETTINGS_FILE_PATH=/app/server_settings.it.json
+      # - PYTHONPATH=${PYTHONPATH}:${PWD}
+    # expose:
+    #   - "5001"
+    #   - "5678"
+    # ports:
+    #   - "5001:5001"
+    #   - "5678:5678"
+    # depends_on:
+    #   setup-db:
+    #     condition: service_completed_successfully
+    #   db:
+    #     condition: service_healthy
+    #   s3:
+    #     condition: service_started
+    #   redis:
+    #     condition: service_started
+    container_name: housing-scraper
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://app:5001/ping"]
+    volumes:
+        - ../logs:/app/logs
