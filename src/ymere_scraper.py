@@ -19,14 +19,6 @@ class NotificationType(IntEnum):
 class YmereScraper():
 
     # constants
-    YMERE_URL = "https://aanbod.ymere.nl/portal/publication/frontend/getallobjects/format/json"
-    YMERE_PAYLOAD = {
-        'accept': 'application/json',
-        'origin': 'https://aanbod.ymere.nl',
-        'referer': 'https://aanbod.ymere.nl/aanbod/huurwoningen/',
-        'dwellingTypeCategory': 'woning'
-    }
-    YMERE_LISTINGS = "./ymere_listings.csv"
     NOTIFICATION_TYPE = NotificationType.PUSH_NOTIFICATION.value
 
     # initialize Nominatim API

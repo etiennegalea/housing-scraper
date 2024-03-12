@@ -166,7 +166,7 @@ cython_debug/
 .config.yml
 
 # data and logs
-ymere_listings.csv
+csv/
 log.out
 
 # testing and misc.
