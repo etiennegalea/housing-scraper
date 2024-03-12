@@ -2,7 +2,7 @@ version: '3'
 
 services:
   housing-scraper:
-    image: python:3.8-slim
+    image: python:3.10-slim-bullseye
     volumes:
       - ./src/main.py:/app/main.py
     command: bash -c "while true; do python /app/main.py; sleep 900; done"
