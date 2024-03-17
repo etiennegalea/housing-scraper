@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     # extract ymere listings from obtained json object
     try:
-        new_listings = hs.clean_listings(hs.extract_listings_funda(area=settings.AREA_TO_SEARCH, raw_listings=True, n_pages=1))
+        new_listings = hs.clean_listings(hs.extract_listings_funda(area=settings.AREA_TO_SEARCH, raw_listings=True, n_pages=5))
 
         if new_listings is not None:
             logging.info("Houses available found...")
