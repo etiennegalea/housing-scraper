@@ -7,3 +7,5 @@ sendgrid
 geopy
 pushbullet.py
 PyYAML
+funda-scraper
+translate
