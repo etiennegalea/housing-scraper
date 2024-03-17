@@ -329,7 +329,7 @@ class HouseScraper():
             logging.debug(response.body)
             logging.debug(response.headers)
         except Exception as e:
-            logging.debug(e.message)
+            logging.debug(e)
 
         return response.status_code
 
