@@ -9,6 +9,8 @@ from enum import IntEnum
 import logging
 
 import settings
+from funda_scraper import FundaScraper, preprocess
+from translate import Translator
 
 
 class NotificationType(IntEnum):
@@ -16,27 +18,26 @@ class NotificationType(IntEnum):
     PUSH_NOTIFICATION = 2
 
 
-class YmereScraper():
+class HouseScraper():
 
     # constants
-    NOTIFICATION_TYPE = NotificationType.PUSH_NOTIFICATION.value
+    NOTIFICATION_TYPE = NotificationType.EMAIL.value
 
     # initialize Nominatim API
     geolocator = Nominatim(user_agent='house_listings')
 
-    # load sendgrid api key from yaml config file
     try:
-        with open(".config.yml", 'r') as stream:
-            SENDGRID_API_KEY = yaml.safe_load(stream)['api-keys']['sendgrid']
+        with open("src/.config.yml", 'r') as stream:
+            config = yaml.safe_load(stream)
+            if config is not None and 'api-keys' in config:
+                SENDGRID_API_KEY = config['api-keys'].get('sendgrid')
+                PUSHBULLET_API_KEY = config['api-keys'].get('pushbullet')
+                if SENDGRID_API_KEY is None or PUSHBULLET_API_KEY is None:
+                    raise ValueError("API keys not found in the YAML file.")
+            else:
+                raise ValueError("Invalid YAML structure or missing 'api-keys' key.")
     except Exception as e:
-        print(f"{e}: SendGrid API KEY is not available.")
-        
-    # load pushbullet api key from yaml config file
-    try:
-        with open(".config.yml", 'r') as stream:
-            PUSHBULLET_API_KEY = yaml.safe_load(stream)['api-keys']['pushbullet']
-    except Exception as e:
-        print(f"{e}: PushBullet API KEY is not available.")
+        print(f"{e}: API KEY is not available.")
 
 
     @classmethod
@@ -84,6 +85,55 @@ class YmereScraper():
         return location
 
     @classmethod
+    def extract_log_datetime(self, log_id:str) -> str:
+        """
+        Extract log datetime as string from log_id
+        """
+
+        log_datetime = datetime.strptime(log_id, '%Y%m-%d%H-%M%S')
+        return log_datetime.strftime('%d-%m-%Y %H:%M:%S')
+
+    @classmethod
+    def clean_listings(self, df:pd.DataFrame):
+        """
+        Manually clean listings to extract desired fields.
+
+        Args:
+            df: (Pandas.DataFrame)  the scraped house listings
+        """
+
+        clean_df = pd.DataFrame()
+
+        # info
+        clean_df["house_id"] = df["url"].apply(lambda x: int(x.split("/")[-2].split("-")[1]))
+        clean_df["house_type"] = df["url"].apply(lambda x: x.split("/")[-2].split("-")[0])
+
+        # price
+        clean_df["price"] = df["price"].apply(preprocess.clean_price)
+        clean_df = clean_df[clean_df["price"] != 0]
+
+        # house layout
+        clean_df["room"] = df["num_of_rooms"].apply(preprocess.find_n_room)
+        clean_df["bedroom"] = df["num_of_rooms"].apply(preprocess.find_n_bedroom)
+        clean_df["bathroom"] = df["num_of_bathrooms"].apply(preprocess.find_n_bathroom)
+        clean_df["energy_label"] = df["energy_label"].apply(preprocess.clean_energy_label)
+
+        # translations
+        # clean_parking = df[df["parking"] != "na"]
+        # clean_df["parking"] = clean_parking.apply(translator.translate)
+
+        clean_df["address"] = df["address"]
+        clean_df["zip_code"] = df["zip_code"]
+        clean_df["year_built"] = df["year"]
+        clean_df["url"] = df["url"]
+
+        # time
+        clean_df["log_id"] = df["log_id"].apply(self.extract_log_datetime)
+        clean_df = clean_df.set_index('house_id').sort_index(ascending=False)
+
+        return clean_df
+
+    @classmethod
     def filter_listings(self, current_listings, old_listings):
         """
         Filter new listings by matching ids in the loaded csv and the scrapred listings ids.
@@ -106,7 +156,7 @@ class YmereScraper():
         return new_listings, updated_listings
 
     @classmethod
-    def clean_up(self, old_listings):
+    def clean_up_ymere(self, old_listings):
         """
         Clean up the old listings by iterating through the dataframe and removing and listings of which `closingDate` has passed.
         i.e.: current date is greater than closing date.
@@ -132,6 +182,27 @@ class YmereScraper():
 
         # drop listings that expired
         return old_listings.drop(drop_rows)
+
+
+    @classmethod
+    def extract_listings_funda(self, area:str, want_to:str='rent', n_pages:int=1, raw_listings:bool=True) -> pd.DataFrame:
+        """
+        Extract listings from Funda scraping library.
+
+        Args:
+            area:               (string)    area that you want to search in
+            want_to:            (string)    'rent' or 'buy'
+            n_pages:            (int)       number of listings to show
+            raw_listings:       (bool)      return raw listings scraped or clean them
+
+        Return:
+            (pandas.DataFrame) containing the desirable filtered listings from the scraped data.
+        """
+
+        scraper = FundaScraper(area="breda", want_to="rent", find_past=False, page_start=1, n_pages=1)
+        houses = scraper.run(raw_data=raw_listings)
+
+        return houses
 
     @classmethod
     def extract_listings_ymere(self, listings):
@@ -201,7 +272,7 @@ class YmereScraper():
             (tuple) containing title (string) and body (string) of listing information
         """
 
-        title = f"[Ymere listing] {len(new_listings)} found!"
+        title = f"[HOUSE LISTINGS | {settings.AREA_TO_SEARCH.upper()}] {len(new_listings)} found!"
 
         if notification_type == NotificationType.EMAIL.value:
             body = f"""
@@ -214,10 +285,7 @@ class YmereScraper():
                 </head>
                 <body>
                     <p>
-                        Log in and react to ymere listings 
-                        <a href="https://aanbod.ymere.nl/mijn-omgeving/inloggen/">
-                            <b>here</b>
-                        </a>
+                        New houses in {settings.AREA_TO_SEARCH.upper()} just dropped!
                     </p>
                     <br>
                     {new_listings.to_html(index=False)}
@@ -236,7 +304,7 @@ class YmereScraper():
         return title, body
 
     @classmethod
-    def send_email(self, content, to_email="egalea.11@gmail.com"):
+    def send_email(self, content, to_email=settings.EMAIL_SEND_TO):
         """
         Send email to address with only the new listings founds.
 

@@ -14,8 +14,13 @@ YMERE_PAYLOAD = {
     'referer': 'https://aanbod.ymere.nl/aanbod/huurwoningen/',
     'dwellingTypeCategory': 'woning'
 }
-YMERE_LISTINGS = "csv/ymere_listings.csv"
+HOUSE_LISTINGS = "csv/house_listings.csv"
 ALL_HOUSE_LISTINGS = "csv/all_house_listings.csv"
+
+AREA_TO_SEARCH = "breda"
+
+# EMAIL_SEND_TO = "nolan.g90@gmail.com"
+EMAIL_SEND_TO = "egalea.11@gmail.com"
 
 # logging initialization
 log_path = "./logs"
