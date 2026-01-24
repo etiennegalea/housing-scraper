@@ -9,3 +9,4 @@ pushbullet.py
 PyYAML
 funda-scraper
 translate
+python-dotenv

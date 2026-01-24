@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-import yaml
+from sendgrid.helpers.mail import Mail
 from geopy.geocoders import Nominatim
 from pushbullet import Pushbullet
 from enum import IntEnum
@@ -26,18 +26,12 @@ class HouseScraper():
     # initialize Nominatim API
     geolocator = Nominatim(user_agent='house_listings')
 
-    try:
-        with open("src/.config.yml", 'r') as stream:
-            config = yaml.safe_load(stream)
-            if config is not None and 'api-keys' in config:
-                SENDGRID_API_KEY = config['api-keys'].get('sendgrid')
-                PUSHBULLET_API_KEY = config['api-keys'].get('pushbullet')
-                if SENDGRID_API_KEY is None or PUSHBULLET_API_KEY is None:
-                    raise ValueError("API keys not found in the YAML file.")
-            else:
-                raise ValueError("Invalid YAML structure or missing 'api-keys' key.")
-    except Exception as e:
-        print(f"{e}: API KEY is not available.")
+
+    SENDGRID_API_KEY = settings.SENDGRID_API_KEY
+    PUSHBULLET_API_KEY = settings.PUSHBULLET_API_KEY
+
+    if SENDGRID_API_KEY is None or PUSHBULLET_API_KEY is None:
+        logging.warning("API keys not found in settings / environment.")
 
 
     @classmethod
@@ -317,7 +311,7 @@ class HouseScraper():
         """
 
         message = Mail(
-            from_email = "pitirross.life@gmail.com",
+            from_email = settings.EMAIL_SEND_FROM,
             to_emails = to_email,
             subject = content[0],
             html_content = content[1]
