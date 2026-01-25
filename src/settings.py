@@ -39,5 +39,4 @@ if log_filename:
     logging.basicConfig(filename=log_filename, format="%(asctime)s %(name)s %(levelname)s: %(message)s")
     logging.basicConfig(format="%(asctime)s %(name)s %(levelname)s: %(message)s")
 else:
-
-logging.getLogger("urllib3").setLevel(logging.DEBUG)
+    logging.getLogger("urllib3").setLevel(logging.DEBUG)

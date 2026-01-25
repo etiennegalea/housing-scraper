@@ -8,10 +8,9 @@ class FundaScraper(BaseFundaScraper):
     A wrapper around the base FundaScraper to ensure compatibility with the existing codebase.
     """
     def __init__(self, *args, **kwargs):
-        # The library uses 'number_of_pages' instead of 'n_pages' in some versions,
-        # but ymere_scraper.py calls it with n_pages. Let's handle both.
-        if 'n_pages' in kwargs and 'number_of_pages' not in kwargs:
-            kwargs['number_of_pages'] = kwargs.pop('n_pages')
+        # The library uses 'n_pages'. If caller uses 'number_of_pages', map it.
+        if 'number_of_pages' in kwargs and 'n_pages' not in kwargs:
+            kwargs['n_pages'] = kwargs.pop('number_of_pages')
         super().__init__(*args, **kwargs)
 
 class preprocess:
@@ -75,8 +74,8 @@ class preprocess:
         """Clean energy label string, e.g., 'A+++' or 'B'"""
         if pd.isna(label_str) or label_str == "na":
             return "na"
-        # Often it comes as 'A' or 'Energielabel A'
-        match = re.search(r'([A-G][\+]{0,3})', str(label_str), re.IGNORECASE)
+        # Look for a letter A-G followed by 0-3 pluses, ensuring it's not part of a word
+        match = re.search(r'(?<![A-Za-z])([A-G][\+]{0,3})(?![A-Za-z])', str(label_str), re.IGNORECASE)
         return match.group(1).upper() if match else str(label_str).strip()
 
     @staticmethod

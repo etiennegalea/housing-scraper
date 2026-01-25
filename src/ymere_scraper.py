@@ -9,7 +9,7 @@ from enum import IntEnum
 import logging
 
 import settings
-from funda_scraper import FundaScraper, preprocess
+from funda_scraper_wrapper import FundaScraper, preprocess
 from translate import Translator
 
 

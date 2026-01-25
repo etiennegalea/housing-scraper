@@ -13,7 +13,8 @@ if __name__ == "__main__":
     """
 
     # set logger name
-    logging.getLogger(__name__)
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
 
     hs = HouseScraper()
 
