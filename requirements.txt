@@ -10,3 +10,5 @@ PyYAML
 funda-scraper
 translate
 python-dotenv
+playwright
+playwright-stealth
